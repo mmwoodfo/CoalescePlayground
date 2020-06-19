@@ -69,6 +69,26 @@ export const Person = domain.types.Person = {
     },
   },
   methods: {
+    saveWithDelay: {
+      name: "saveWithDelay",
+      displayName: "Save With Delay",
+      transportType: "item",
+      httpMethod: "POST",
+      params: {
+        id: {
+          name: "id",
+          displayName: "Primary Key",
+          role: "value",
+          type: "number",
+        },
+      },
+      return: {
+        name: "$return",
+        displayName: "Result",
+        role: "value",
+        type: "void",
+      },
+    },
   },
   dataSources: {
   },

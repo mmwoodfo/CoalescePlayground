@@ -1,20 +1,25 @@
 <template>
-    <div>
-      <ol>
-        <span v-for="people in personList.$items">
+  <div>
+    <button class="crudBtns">Add Person</button>
+    <ol>
+      <span v-for="people in personList.$items">
+        <li>
+          <span v-if="person.name == null || person.personId != people.personId">{{people.name}}</span>
+          <span v-if="person.name != null && person.personId == people.personId"><input v-on:keyup.enter="savePerson()" style="background-color: lightblue;" v-model="person.name" /></span>
+          <button @click="editPerson(people)" class="crudBtns">&#x270E;</button> <!--edit-->
+          <button class="crudBtns">&#x1F5D1;</button> <!--delete-->
+        </li>
+        <ul>
           <li>
-            <span v-if="person.name == null || person.personId != people.personId">{{people.name}}</span>
-            <span v-if="person.name != null && person.personId == people.personId"><input style="background-color: lightblue;" v-model="person.name" /></span>
-            <button @click="editPerson(people)" class="crudBtns">&#x270E;</button> <!--edit-->
-            <button class="crudBtns">&#x1F5D1;</button> <!--delete-->
+            <span v-if="person.birthDate == null || person.personId != people.personId"><c-display :model="people" for="birthDate" format="M/d/yyyy" /></span>
+            <span v-if="person.birthDate != null && person.personId == people.personId"><c-datetime-picker v-model="person.birthDate" date-kind="date" /></span>
+            <!--<input v-on:keyup.enter="savePerson()" style="background-color: lightblue;" v-model="person.name" />-->
           </li>
-          <ul>
-            <li><c-display :model="people" for="birthDate" format="M/d/yyyy" /></li>
-            <li>Middle Initial: {{people.middleName}}</li>
-          </ul>
-        </span>
-      </ol>
-    </div>
+          <li>Middle Initial: {{people.middleName}}</li>
+        </ul>
+      </span>
+    </ol>
+  </div>
 </template>
 
 <script lang="ts">
@@ -35,6 +40,15 @@
 
     editPerson(person: PersonViewModel) {
       this.person = person;
+    }
+
+    savePerson() {
+      //custom save in Person.cs
+      //this.person.saveWithDelay();
+      //alert('saved');
+
+      //$save : coalesce save
+      this.person.$save().then(() => { alert('saved') });
     }
   }
 </script>

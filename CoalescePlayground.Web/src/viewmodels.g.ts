@@ -31,6 +31,17 @@ export interface PersonViewModel extends $models.Person {
 }
 export class PersonViewModel extends ViewModel<$models.Person, $apiClients.PersonApiClient, number> implements $models.Person  {
   
+  public get saveWithDelay() {
+    const saveWithDelay = this.$apiClient.$makeCaller(
+      "item", 
+      (c) => c.saveWithDelay(this.$primaryKey, ),
+      () => ({}),
+      (c, args) => c.saveWithDelay(this.$primaryKey, ))
+    
+    Object.defineProperty(this, 'saveWithDelay', {value: saveWithDelay});
+    return saveWithDelay
+  }
+  
   constructor(initialData?: DeepPartial<$models.Person> | null) {
     super($metadata.Person, new $apiClients.PersonApiClient(), initialData)
   }

@@ -11,6 +11,14 @@ export class ApplicationUserApiClient extends ModelApiClient<$models.Application
 
 export class PersonApiClient extends ModelApiClient<$models.Person> {
   constructor() { super($metadata.Person) }
+  public saveWithDelay(id: number, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<void>> {
+    const $method = this.$metadata.methods.saveWithDelay
+    const $params =  {
+      id,
+    }
+    return this.$invoke($method, $params, $config)
+  }
+  
 }
 
 

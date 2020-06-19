@@ -115,5 +115,25 @@ namespace CoalescePlayground.Web.Api
             => CsvSaveImplementation(csv, dataSource, behaviors, hasHeader);
 
         // Methods from data class exposed through API Controller.
+
+        /// <summary>
+        /// Method: SaveWithDelay
+        /// </summary>
+        [HttpPost("SaveWithDelay")]
+        [Authorize]
+        public virtual async Task<ItemResult> SaveWithDelay([FromServices] IDataSourceFactory dataSourceFactory, int id)
+        {
+            var dataSource = dataSourceFactory.GetDataSource<CoalescePlayground.Data.Models.Person, CoalescePlayground.Data.Models.Person>("Default");
+            var (itemResult, _) = await dataSource.GetItemAsync(id, new ListParameters());
+            if (!itemResult.WasSuccessful)
+            {
+                return new ItemResult(itemResult);
+            }
+            var item = itemResult.Object;
+            item.SaveWithDelay(Db);
+            await Db.SaveChangesAsync();
+            var result = new ItemResult();
+            return result;
+        }
     }
 }
