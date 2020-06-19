@@ -1,0 +1,16 @@
+{
+  "webProject": {
+    "projectFile": "./CoalescePlayground.Web/CoalescePlayground.Web.csproj"
+  },
+  "dataProject": {
+    "projectFile": "./CoalescePlayground.Data/CoalescePlayground.Data.csproj"
+  },
+
+  "rootGenerator": "Vue",
+
+  "generatorConfig": {
+    "Scripts": {
+      "targetDirectory": "../src"
+    }
+  }
+}
