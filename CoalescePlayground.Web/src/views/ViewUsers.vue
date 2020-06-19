@@ -1,7 +1,7 @@
 <template>
   <div>
     <button v-if="createMode==false" class="crudBtns" @click="enterCreateMode">Add Person</button>
-    <button v-if="createMode==true" class="crudBtns" @click="enterCreateMode">Cancel</button>
+    <button v-if="createMode==true" class="crudBtns" @click="enterCreateMode">Cancel Person</button>
     <div v-if="createMode==true">
       Name: <input v-model="person.name" />
       <!--DOB: <c-datetime-picker v-model="person.birthDate" date-kind="date" />
