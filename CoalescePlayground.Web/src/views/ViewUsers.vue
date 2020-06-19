@@ -1,28 +1,29 @@
 <template>
   <div>
-    <button class="crudBtns">Add Person</button>
+    <button class="crudBtns" @click="enterCreateMode">Add Person</button>
+    {{createMode}}
     <ol>
       <span v-for="people in personList.$items">
         <li>
-          <span v-if="person.name == null || person.personId != people.personId">{{people.name}}</span>
-          <span v-if="person.name != null && person.personId == people.personId"><input v-on:keyup.enter="updatePerson()" v-model="person.name" /></span>
+          <span v-if="person.personId == null || person.personId != people.personId">{{people.name}}</span>
+          <span v-if="person.personId != null && person.personId == people.personId"><input v-on:keyup.enter="updatePerson()" v-model="person.name" /></span>
           <button @click="editPerson(people)" class="crudBtns">&#x270E;</button> <!--edit-->
           <button class="crudBtns">&#x1F5D1;</button> <!--delete-->
         </li>
         <ul>
           <li>
-            <span v-if="person.birthDate == null || person.personId != people.personId"><c-display :model="people" for="birthDate" format="M/d/yyyy" /></span>
-            <span v-if="person.birthDate != null && person.personId == people.personId"><c-datetime-picker v-on:keyup.enter="updatePerson()" v-model="person.birthDate" date-kind="date" /></span>
+            <span v-if="person.personId == null || person.personId != people.personId"><c-display :model="people" for="birthDate" format="M/d/yyyy" /></span>
+            <span v-if="person.personId != null && person.personId == people.personId"><c-datetime-picker v-on:keyup.enter="updatePerson()" v-model="person.birthDate" date-kind="date" /></span>
           </li>
           <li>Middle Initial: {{people.middleName}}</li>
         </ul>
       </span>
     </ol>
-    <div>
+    <div v-if="createMode==true">
       Name: <input v-model="person.name" />
-      DOB: <c-datetime-picker v-model="person.birthDate" date-kind="date" />
-      Middle Name: <input v-model="person.middleName" />
-      <button class="crudBtns" @click="updatePerson()">+</button>
+      <!--DOB: <c-datetime-picker v-model="person.birthDate" date-kind="date" />
+      Middle Name: <input v-model="person.middleName" />-->
+      <button class="crudBtns" @click="createPerson()">+</button>
     </div>
   </div>
 </template>
@@ -35,6 +36,7 @@
   export default class extends Vue {
     @Prop({ required: true, type: Number })
     id!: number;
+    createMode: boolean = false;
 
     personList = new PersonListViewModel();
     person: PersonViewModel = new PersonViewModel();
@@ -43,14 +45,18 @@
       this.personList.$load();
     }
 
+    enterCreateMode() {
+      this.createMode = true;
+    }
     editPerson(person: PersonViewModel) {
       this.person = person;
     }
 
-    createPerson=()=> {
+    createPerson() {
       this.person.$save().then(() => {
+        this.createMode = false;
         this.personList.$load();
-        alert('saved');
+        this.person = new PersonViewModel();
       });
     }
 
