@@ -5,20 +5,25 @@
       <span v-for="people in personList.$items">
         <li>
           <span v-if="person.name == null || person.personId != people.personId">{{people.name}}</span>
-          <span v-if="person.name != null && person.personId == people.personId"><input v-on:keyup.enter="savePerson()" style="background-color: lightblue;" v-model="person.name" /></span>
+          <span v-if="person.name != null && person.personId == people.personId"><input v-on:keyup.enter="updatePerson()" v-model="person.name" /></span>
           <button @click="editPerson(people)" class="crudBtns">&#x270E;</button> <!--edit-->
           <button class="crudBtns">&#x1F5D1;</button> <!--delete-->
         </li>
         <ul>
           <li>
             <span v-if="person.birthDate == null || person.personId != people.personId"><c-display :model="people" for="birthDate" format="M/d/yyyy" /></span>
-            <span v-if="person.birthDate != null && person.personId == people.personId"><c-datetime-picker v-model="person.birthDate" date-kind="date" /></span>
-            <!--<input v-on:keyup.enter="savePerson()" style="background-color: lightblue;" v-model="person.name" />-->
+            <span v-if="person.birthDate != null && person.personId == people.personId"><c-datetime-picker v-on:keyup.enter="updatePerson()" v-model="person.birthDate" date-kind="date" /></span>
           </li>
           <li>Middle Initial: {{people.middleName}}</li>
         </ul>
       </span>
     </ol>
+    <div>
+      Name: <input v-model="person.name" />
+      DOB: <c-datetime-picker v-model="person.birthDate" date-kind="date" />
+      Middle Name: <input v-model="person.middleName" />
+      <button class="crudBtns" @click="updatePerson()">+</button>
+    </div>
   </div>
 </template>
 
@@ -32,7 +37,7 @@
     id!: number;
 
     personList = new PersonListViewModel();
-    person = new PersonViewModel();
+    person: PersonViewModel = new PersonViewModel();
 
     created() {
       this.personList.$load();
@@ -42,13 +47,21 @@
       this.person = person;
     }
 
-    savePerson() {
+    createPerson=()=> {
+      this.person.$save().then(() => {
+        this.personList.$load();
+        alert('saved');
+      });
+    }
+
+    updatePerson() {
       //custom save in Person.cs
       //this.person.saveWithDelay();
       //alert('saved');
 
       //$save : coalesce save
       this.person.$save().then(() => { alert('saved') });
+      this.person = new PersonViewModel();
     }
   }
 </script>
@@ -69,4 +82,8 @@
       background-color: black;
       box-shadow: none;
     }
+
+  input {
+    background-color: lightblue;
+  }
 </style>
