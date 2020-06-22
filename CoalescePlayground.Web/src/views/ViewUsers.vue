@@ -51,6 +51,7 @@
 <script lang="ts">
   import { Vue, Component, Watch, Prop } from "vue-property-decorator";
   import { PersonListViewModel, PersonViewModel } from "@/viewmodels.g";
+import { Person } from "../models.g";
 
   @Component({})
   export default class extends Vue {
@@ -101,11 +102,17 @@
     }
 
     filterByName() {
-      this.personList.filterPeople(this.filter).then();
+      if (this.filter != "" && this.filter != null) {
+        this.personList.filterPeople(this.filter).then(result => {
+          this.personList.$items = [];
 
-        //let result2 = <PersonListViewModel><unknown>result.data.object; //<---- this needs to be converted to a PersonListViewModel, not sure how to do that??
-        //alert(result2.$count); //<---- Undefined, not sure why conversion above doesn't work?
-      //});
+          result.data.object!.forEach((personValue: Person, index: number, array: Person[]) => {
+            this.personList.$items.push(new PersonViewModel(personValue));
+          });
+        });
+      } else {
+        this.personList.$load();
+      }
     }
   }
 </script>
