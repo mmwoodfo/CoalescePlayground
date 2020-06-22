@@ -28,6 +28,9 @@ export interface PersonViewModel extends $models.Person {
   name: string | null;
   birthDate: Date | null;
   middleName: string | null;
+  securityLevel: number | null;
+  modified: Date | null;
+  created: Date | null;
 }
 export class PersonViewModel extends ViewModel<$models.Person, $apiClients.PersonApiClient, number> implements $models.Person  {
   

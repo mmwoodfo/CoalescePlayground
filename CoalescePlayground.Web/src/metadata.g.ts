@@ -67,6 +67,26 @@ export const Person = domain.types.Person = {
       type: "string",
       role: "value",
     },
+    securityLevel: {
+      name: "securityLevel",
+      displayName: "Security Level",
+      type: "number",
+      role: "value",
+    },
+    modified: {
+      name: "modified",
+      displayName: "Modified",
+      dateKind: "datetime",
+      type: "date",
+      role: "value",
+    },
+    created: {
+      name: "created",
+      displayName: "Created",
+      dateKind: "datetime",
+      type: "date",
+      role: "value",
+    },
   },
   methods: {
     saveWithDelay: {
@@ -119,6 +139,14 @@ export const Person = domain.types.Person = {
     },
   },
   dataSources: {
+    filterOutUsersAboveClassification: {
+      type: "dataSource",
+      name: "FilterOutUsersAboveClassification",
+      displayName: "Filter Out Users Above Classification",
+      isDefault: true,
+      props: {
+      },
+    },
   },
 }
 

@@ -105,7 +105,6 @@ import { Person } from "../models.g";
       if (this.filter != "" && this.filter != null) {
         this.personList.filterPeople(this.filter).then(result => {
           this.personList.$items = [];
-
           result.data.object!.forEach((personValue: Person, index: number, array: Person[]) => {
             this.personList.$items.push(new PersonViewModel(personValue));
           });

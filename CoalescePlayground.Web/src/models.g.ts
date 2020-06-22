@@ -29,6 +29,9 @@ export interface Person extends Model<typeof metadata.Person> {
   name: string | null
   birthDate: Date | null
   middleName: string | null
+  securityLevel: number | null
+  modified: Date | null
+  created: Date | null
 }
 export class Person {
   
@@ -45,6 +48,14 @@ export class Person {
   /** Instantiate a new Person, optionally basing it on the given data. */
   constructor(data?: Partial<Person> | {[k: string]: any}) {
       Object.assign(this, Person.map(data || {}));
+  }
+}
+export namespace Person {
+  export namespace DataSources {
+    
+    export class FilterOutUsersAboveClassification implements DataSource<typeof metadata.Person.dataSources.filterOutUsersAboveClassification> {
+      readonly $metadata = metadata.Person.dataSources.filterOutUsersAboveClassification
+    }
   }
 }
 
