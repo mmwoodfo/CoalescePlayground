@@ -50,6 +50,17 @@ defineProps(PersonViewModel, $metadata.Person)
 
 export class PersonListViewModel extends ListViewModel<$models.Person, $apiClients.PersonApiClient, PersonViewModel> {
   
+  public get filterPeople() {
+    const filterPeople = this.$apiClient.$makeCaller(
+      "item", 
+      (c, filter: string | null) => c.filterPeople(filter),
+      () => ({filter: null as string | null, }),
+      (c, args) => c.filterPeople(args.filter))
+    
+    Object.defineProperty(this, 'filterPeople', {value: filterPeople});
+    return filterPeople
+  }
+  
   constructor() {
     super($metadata.Person, new $apiClients.PersonApiClient())
   }

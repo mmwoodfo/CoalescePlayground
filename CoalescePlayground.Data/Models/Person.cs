@@ -1,8 +1,11 @@
 ﻿using IntelliTect.Coalesce;
 using System;
 using System.Collections.Generic;
+using System.Linq.Dynamic.Core;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CoalescePlayground.Data.Models
 {
@@ -23,5 +26,9 @@ namespace CoalescePlayground.Data.Models
 
             Task.Delay(3000).Wait();
         }
+
+        [Coalesce]
+        public static ICollection<Person> FilterPeople(AppDbContext dbContext, string filter) 
+            => dbContext.Person.Where(x => x.Name.Contains(filter)).ToList();
     }
 }

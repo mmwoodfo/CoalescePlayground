@@ -19,6 +19,14 @@ export class PersonApiClient extends ModelApiClient<$models.Person> {
     return this.$invoke($method, $params, $config)
   }
   
+  public filterPeople(filter: string | null, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<$models.Person[]>> {
+    const $method = this.$metadata.methods.filterPeople
+    const $params =  {
+      filter,
+    }
+    return this.$invoke($method, $params, $config)
+  }
+  
 }
 
 

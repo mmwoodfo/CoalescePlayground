@@ -12,6 +12,11 @@
       <button class="crudBtns" @click="createPerson()">Submit</button>
     </div>
 
+    <div>
+      <p>Filter by name</p>
+      <input class="crudInputs" v-model="filter" v-on:keyup.enter="filterByName()" />
+    </div>
+
     <ol>
       <span v-for="people in personList.$items">
 
@@ -55,6 +60,7 @@
 
     personList = new PersonListViewModel();
     person: PersonViewModel = new PersonViewModel();
+    filter: string = "";
 
     created() {
       this.personList.$load();
@@ -92,6 +98,14 @@
         person.$delete().then(() => {
         this.personList.$load();
       });
+    }
+
+    filterByName() {
+      this.personList.filterPeople(this.filter).then();
+
+        //let result2 = <PersonListViewModel><unknown>result.data.object; //<---- this needs to be converted to a PersonListViewModel, not sure how to do that??
+        //alert(result2.$count); //<---- Undefined, not sure why conversion above doesn't work?
+      //});
     }
   }
 </script>

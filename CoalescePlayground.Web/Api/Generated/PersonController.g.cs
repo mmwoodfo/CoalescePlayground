@@ -135,5 +135,20 @@ namespace CoalescePlayground.Web.Api
             var result = new ItemResult();
             return result;
         }
+
+        /// <summary>
+        /// Method: FilterPeople
+        /// </summary>
+        [HttpPost("FilterPeople")]
+        [Authorize]
+        public virtual ItemResult<ICollection<PersonDtoGen>> FilterPeople(string filter)
+        {
+            IncludeTree includeTree = null;
+            var methodResult = CoalescePlayground.Data.Models.Person.FilterPeople(Db, filter);
+            var result = new ItemResult<ICollection<PersonDtoGen>>();
+            var mappingContext = new MappingContext(User, "");
+            result.Object = methodResult?.ToList().Select(o => Mapper.MapToDto<CoalescePlayground.Data.Models.Person, PersonDtoGen>(o, mappingContext, includeTree)).ToList();
+            return result;
+        }
     }
 }

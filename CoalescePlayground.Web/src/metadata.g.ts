@@ -89,6 +89,34 @@ export const Person = domain.types.Person = {
         type: "void",
       },
     },
+    filterPeople: {
+      name: "filterPeople",
+      displayName: "Filter People",
+      transportType: "item",
+      httpMethod: "POST",
+      isStatic: true,
+      params: {
+        filter: {
+          name: "filter",
+          displayName: "Filter",
+          type: "string",
+          role: "value",
+        },
+      },
+      return: {
+        name: "$return",
+        displayName: "Result",
+        role: "value",
+        type: "collection",
+        itemType: {
+          name: "$collectionItem",
+          displayName: "",
+          role: "value",
+          type: "model",
+          get typeDef() { return (domain.types.Person as ModelType) },
+        },
+      },
+    },
   },
   dataSources: {
   },
